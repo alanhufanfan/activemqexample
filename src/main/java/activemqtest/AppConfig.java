@@ -2,6 +2,7 @@ package activemqtest;
 
 import activemqtest.consumers.*;
 import activemqtest.domain.Message;
+import activemqtest.producers.Producer;
 import activemqtest.services.XmlMarshaller;
 import activemqtest.services.XmlValidator;
 import activemqtest.utils.Names;
@@ -56,24 +57,28 @@ public class AppConfig {
 
 
     @Bean
-    TopicConsumer durableConsumer () {
-        return new TopicConsumer("durableConsumer");
+    @Qualifier("durableConsumer")
+    Consumer durableConsumer () {
+        return new Consumer("durableConsumer");
     }
 
     @Bean
-    TopicConsumer simpleConsumer() {
-        return new TopicConsumer("simpleConsumer");
+    @Qualifier("simpleConsumer")
+    Consumer simpleConsumer() {
+        return new Consumer("simpleConsumer");
     }
 
 
     @Bean
-    AConsumer aConsumer() {
-        return new AConsumer();
+    @Qualifier("aConsumer")
+    Consumer aConsumer() {
+        return new Consumer("A Consumer");
     }
 
     @Bean
-    BConsumer bConsumer () {
-        return new BConsumer();
+    @Qualifier("bConsumer")
+    Consumer bConsumer () {
+        return new Consumer("B Consumer");
     }
 
 
@@ -106,15 +111,14 @@ public class AppConfig {
 
     @Bean
     SimpleMessageListenerContainer durableListener(ConnectionFactory factory) {
-        TopicConsumer durableConsumer = (TopicConsumer)applicationContext.getBean("durableConsumer");
         SimpleMessageListenerContainer dmlc = new SimpleMessageListenerContainer();
         dmlc.setConnectionFactory(factory);
         dmlc.setClientId("topicId1");
         dmlc.setPubSubDomain(true);
         dmlc.setDestinationName(Names.TopicName);
-        dmlc.setMessageListener(durableConsumer);
+        dmlc.setMessageListener(applicationContext.getBean("durableConsumer"));
         dmlc.setSessionTransacted(true);
-        dmlc.setDurableSubscriptionName(durableConsumer.getName());
+        dmlc.setDurableSubscriptionName("durable sub");
         dmlc.setSubscriptionDurable(true);
         dmlc.start();
         return dmlc;
@@ -135,19 +139,19 @@ public class AppConfig {
     }
 
     @Bean
-    @Qualifier("topicTemplate")
-    JmsMessagingTemplate topicMessagingTemplate(ConnectionFactory connectionFactory) {
+    @Qualifier("topicProducer")
+    Producer topicProducer(ConnectionFactory connectionFactory) {
         JmsTemplate topicTemplate = new JmsTemplate(connectionFactory);
         topicTemplate.setSessionTransacted(true);
         topicTemplate.setPubSubDomain(true);
         JmsMessagingTemplate topicMessagingTemplate =
                 new JmsMessagingTemplate(topicTemplate);
-        return topicMessagingTemplate;
+        return new Producer(Names.TopicName, topicMessagingTemplate);
     }
 
     @Bean
     @Qualifier("queueTemplate")
-    JmsMessagingTemplate queueMessagingTemplate(ConnectionFactory connectionFactory) {
+    JmsMessagingTemplate queueTemplate(ConnectionFactory connectionFactory) {
         JmsTemplate queueTemplate = new JmsTemplate(connectionFactory);
         queueTemplate.setSessionTransacted(true);
         queueTemplate.setSessionAcknowledgeMode(JmsProperties.AcknowledgeMode.AUTO.getMode());
@@ -155,5 +159,17 @@ public class AppConfig {
         JmsMessagingTemplate queueMessagingTemplate =
                 new JmsMessagingTemplate(queueTemplate);
         return queueMessagingTemplate;
+    }
+
+    @Bean
+    Producer aProducer() {
+        return new Producer(Names.AQueueName, (JmsMessagingTemplate)
+                applicationContext.getBean("queueTemplate"));
+    }
+
+    @Bean
+    Producer bProducer() {
+        return new Producer(Names.BQueueName, (JmsMessagingTemplate)
+                applicationContext.getBean("queueTemplate"));
     }
 }

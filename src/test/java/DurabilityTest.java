@@ -1,6 +1,6 @@
 import activemqtest.Application;
 import activemqtest.domain.Message;
-import activemqtest.producers.TopicProducer;
+import activemqtest.producers.Producer;
 import org.junit.runner.RunWith;
 import javax.jms.JMSException;
 
@@ -22,7 +22,11 @@ public class DurabilityTest {
     private SimpleMessageListenerContainer durableListener;
 
     @Autowired
-    private TopicProducer topicProducer;
+    private SimpleMessageListenerContainer simpleListener;
+
+
+    @Autowired
+    private Producer topicProducer;
 
     @Test
     public void durabilityTest() throws InterruptedException, JMSException {
@@ -34,11 +38,15 @@ public class DurabilityTest {
             m.setMessageText("Hello");
 
             durableListener.stop();
+            simpleListener.stop();
             System.out.println("Durable listener stopped");
             this.topicProducer.sendMessage(m);
             System.out.println("Starting durable listener...");
             durableListener.start();
             System.out.println("Durable listener started");
+
+            Thread.sleep(5_000);
+       //     simpleListener.start();
         }
         catch (Exception ex) {
 

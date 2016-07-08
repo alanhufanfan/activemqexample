@@ -1,6 +1,6 @@
 import activemqtest.Application;
 import activemqtest.domain.Message;
-import activemqtest.producers.TopicProducer;
+import activemqtest.producers.Producer;
 import org.junit.runner.RunWith;
 import javax.jms.JMSException;
 
@@ -18,7 +18,7 @@ import org.springframework.test.context.junit4.*;
 public class ActiveMQTopicTest {
 
     @Autowired
-    private TopicProducer producer;
+    private Producer topicProducer;
 
     @Test
     public void sendSimpleMessageTest() throws InterruptedException, JMSException {
@@ -28,7 +28,7 @@ public class ActiveMQTopicTest {
             m.setDestinationQueueName("A");
             m.setMessageId(1);
             m.setMessageText("Hello world!");
-            this.producer.sendMessage(m);
+            this.topicProducer.sendMessage(m);
         }
         catch (Exception ex) {
 

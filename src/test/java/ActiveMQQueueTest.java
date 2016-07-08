@@ -1,7 +1,6 @@
 import activemqtest.Application;
 import activemqtest.domain.Message;
-import activemqtest.producers.AProducer;
-import org.junit.Ignore;
+import activemqtest.producers.Producer;
 import org.junit.runner.RunWith;
 import javax.jms.JMSException;
 
@@ -19,7 +18,7 @@ import org.springframework.test.context.junit4.*;
 public class ActiveMQQueueTest {
 
     @Autowired
-    private AProducer producer;
+    private Producer aProducer;
 
     @Test
     public void sendSimpleMessageTest() throws InterruptedException, JMSException {
@@ -29,7 +28,7 @@ public class ActiveMQQueueTest {
             m.setDestinationQueueName("A");
             m.setMessageId(1);
             m.setMessageText("Hello world!");
-            this.producer.sendMessage(m);
+            this.aProducer.sendMessage(m);
         }
         catch (Exception ex) {
 
@@ -44,7 +43,7 @@ public class ActiveMQQueueTest {
 
         try {
             String invalidMessage = "invalid message";
-            this.producer.sendMessage(invalidMessage);
+            this.aProducer.sendMessage(invalidMessage);
         }
         catch (Exception ex) {
 

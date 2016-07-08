@@ -32,19 +32,8 @@ public class XmlValidator {
         validator = factory.newSchema(schema.getFile()).newValidator();
     }
 
-    public boolean validate(String xml)  {
+    public void validate(String xml) throws Exception  {
         Source source = new StreamSource(new StringReader(xml));
-
-        boolean isValid = true;
-
-        try {
-            validator.validate(source);
-        }
-        catch (Exception e) {
-            //System.err.println("Not valid");
-            isValid = false;
-        }
-
-        return isValid;
+        validator.validate(source);
     }
 }
