@@ -1,0 +1,13 @@
+activemqtest\utils\Names.class
+activemqtest\producers\BProducer.class
+activemqtest\producers\AProducer.class
+activemqtest\consumers\TopicConsumer.class
+activemqtest\domain\ObjectFactory.class
+activemqtest\services\XmlValidator.class
+activemqtest\AppConfig.class
+activemqtest\services\XmlMarshaller.class
+activemqtest\consumers\BConsumer.class
+activemqtest\Application.class
+activemqtest\consumers\AConsumer.class
+activemqtest\domain\Message.class
+activemqtest\producers\TopicProducer.class

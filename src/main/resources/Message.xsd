@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" >
+
+<xs:element name="Message">
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="messageId" type="xs:int" />
+			<xs:element name="destinationQueueName" type="xs:string"  />
+            <xs:element name="messageText" type="xs:string" />
+        </xs:sequence> 
+    </xs:complexType>
+</xs:element>
+
+</xs:schema>
+
