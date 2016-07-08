@@ -16,9 +16,8 @@ import javax.jms.MessageListener;
 /**
  * Created by zotova on 06.07.2016.
  */
-@Component
-public class Consumer implements MessageListener{
 
+public class Consumer implements MessageListener{
 
     private String name;
     protected Producer nextProducer = null;

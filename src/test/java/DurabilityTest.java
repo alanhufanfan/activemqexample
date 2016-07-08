@@ -45,8 +45,8 @@ public class DurabilityTest {
             durableListener.start();
             System.out.println("Durable listener started");
 
-            Thread.sleep(5_000);
-       //     simpleListener.start();
+            Thread.sleep(10_000);
+            simpleListener.start();
         }
         catch (Exception ex) {
 

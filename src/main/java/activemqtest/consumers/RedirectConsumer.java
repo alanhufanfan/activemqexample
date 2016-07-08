@@ -8,10 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class RedirectConsumer extends Consumer {
 
-    @Autowired
-    Producer bProducer;
 
     public RedirectConsumer() {
-        nextProducer = bProducer;
+
+    }
+
+    public RedirectConsumer(String name, Producer next) {
+        super(name);
+        nextProducer = next;
     }
 }

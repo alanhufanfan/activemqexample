@@ -68,13 +68,6 @@ public class AppConfig {
         return new Consumer("simpleConsumer");
     }
 
-
-    @Bean
-    @Qualifier("aConsumer")
-    Consumer aConsumer() {
-        return new Consumer("A Consumer");
-    }
-
     @Bean
     @Qualifier("bConsumer")
     Consumer bConsumer () {
@@ -172,4 +165,11 @@ public class AppConfig {
         return new Producer(Names.BQueueName, (JmsMessagingTemplate)
                 applicationContext.getBean("queueTemplate"));
     }
+
+    @Bean
+    @Qualifier("aConsumer")
+    Consumer aConsumer() {
+        return new RedirectConsumer("A Consumer", (Producer)applicationContext.getBean("bProducer"));
+    }
+
 }
