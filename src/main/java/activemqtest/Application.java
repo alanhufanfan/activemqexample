@@ -2,6 +2,7 @@ package activemqtest;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jms.JmsAutoConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jms.annotation.EnableJms;
@@ -16,7 +17,7 @@ import javax.jms.ConnectionFactory;
  */
 
 
-@SpringBootApplication
+@SpringBootApplication(exclude = JmsAutoConfiguration.class)
 @EnableJms
 public class Application {
 
