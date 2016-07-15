@@ -9,4 +9,5 @@ public class Names {
     public static final String TopicName = "topic";
     public static final String IBMInput = "INPUT";
     public static final String IBMOutput = "OUTPUT";
+    public static final String IBMTopicName = "topic";
 }

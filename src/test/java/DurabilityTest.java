@@ -7,7 +7,9 @@ import javax.jms.JMSException;
 import org.junit.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.jms.listener.DefaultMessageListenerContainer;
 import org.springframework.jms.listener.SimpleMessageListenerContainer;
 import org.springframework.test.context.junit4.*;
 
@@ -19,10 +21,12 @@ import org.springframework.test.context.junit4.*;
 public class DurabilityTest {
 
     @Autowired
-    private SimpleMessageListenerContainer durableListener;
+    @Qualifier("activeMQDurableListener")
+    private DefaultMessageListenerContainer durableListener;
 
     @Autowired
-    private SimpleMessageListenerContainer simpleListener;
+    @Qualifier("activeMQSimpleListener")
+    private DefaultMessageListenerContainer simpleListener;
 
 
     @Autowired
